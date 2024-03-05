@@ -495,15 +495,13 @@ export abstract class APIClient {
     if (signal) signal.addEventListener('abort', () => controller.abort());
 
     const timeout = setTimeout(() => controller.abort(), ms);
+    const isReadableBody = options.body instanceof Readable;
 
     const fetchOptions = {
       signal: controller.signal as any,
+      ...(isReadableBody ? { duplex: 'half' as RequestDuplex } : {}),
       ...options,
     };
-
-    if (options.body instanceof Readable) {
-      fetchOptions['duplex'] = 'half' as RequestDuplex;
-    }
 
     return (
       this.getRequestClient()
