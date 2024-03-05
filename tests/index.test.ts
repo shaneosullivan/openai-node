@@ -3,7 +3,7 @@
 import OpenAI from 'openai';
 import { APIUserAbortError } from 'openai';
 import { Headers } from 'openai/core';
-import defaultFetch, { Response, type RequestInit, type RequestInfo } from 'node-fetch';
+import { Response, type RequestInit, type RequestInfo, fetch as defaultFetch } from 'undici';
 
 describe('instantiate client', () => {
   const env = process.env;

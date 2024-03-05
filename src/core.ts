@@ -7,19 +7,12 @@ import {
   APIConnectionTimeoutError,
   APIUserAbortError,
 } from './error';
-import {
-  kind as shimsKind,
-  type Readable,
-  getDefaultAgent,
-  type Agent,
-  fetch,
-  type RequestInfo,
-  type RequestInit,
-  type Response,
-  type HeadersInit,
-} from './_shims/index';
+import { kind as shimsKind, getDefaultAgent, type Agent } from './_shims/index';
 export { type Response };
 import { isMultipartBody } from './uploads';
+import { Readable } from 'node:stream';
+import { ReadableStream } from 'node:stream/web';
+import { fetch, RequestInfo, RequestInit, Response, HeadersInit, RequestDuplex } from 'undici';
 export {
   maybeMultipartFormRequestOptions,
   multipartFormRequestOptions,
@@ -498,14 +491,24 @@ export abstract class APIClient {
     controller: AbortController,
   ): Promise<Response> {
     const { signal, ...options } = init || {};
+
     if (signal) signal.addEventListener('abort', () => controller.abort());
 
     const timeout = setTimeout(() => controller.abort(), ms);
 
+    const fetchOptions = {
+      signal: controller.signal as any,
+      ...options,
+    };
+
+    if (options.body instanceof Readable) {
+      fetchOptions['duplex'] = 'half' as RequestDuplex;
+    }
+
     return (
       this.getRequestClient()
         // use undefined this binding; fetch errors if bound to something else in browser/cloudflare
-        .fetch.call(undefined, url, { signal: controller.signal as any, ...options })
+        .fetch.call(undefined, url, fetchOptions)
         .finally(() => {
           clearTimeout(timeout);
         })
