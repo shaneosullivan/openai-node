@@ -5,10 +5,10 @@
  * for easy demo purposes, but simulating use in the browser.
  *
  * To run it in a browser application, copy/paste it into a frontend application,
- * remove the 'node-fetch' import, and replace `process.stdout.write` with
+ * remove the 'undici' import, and replace `process.stdout.write` with
  * a console.log or UI display.
  */
-import fetch from 'node-fetch';
+import { fetch } from 'undici';
 import { ChatCompletionStream } from 'openai/lib/ChatCompletionStream';
 
 fetch('http://localhost:3000', {
