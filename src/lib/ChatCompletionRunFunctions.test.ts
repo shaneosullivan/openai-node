@@ -11,7 +11,7 @@ import {
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
 
 import { type RequestInfo, type RequestInit } from 'openai/_shims/index';
-import { Response } from 'node-fetch';
+import { Response } from 'undici';
 import { isAssistantMessage } from './chatCompletionUtils';
 
 type Fetch = (req: string | RequestInfo, init?: RequestInit) => Promise<Response>;
@@ -54,7 +54,7 @@ function mockFetch(): { fetch: Fetch; handleRequest: (handle: Fetch) => Promise<
           reject(new DOMException('The user aborted a request.', 'AbortError'));
           return;
         }
-        signal.addEventListener('abort', (e) => {
+        signal.addEventListener('abort', (e: any) => {
           // @ts-ignore does exist in Node
           reject(new DOMException('The user aborted a request.', 'AbortError'));
         });
