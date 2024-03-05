@@ -1,21 +1,17 @@
 /**
  * Disclaimer: modules in _shims aren't intended to be imported by SDK users.
  */
-import * as nf from 'node-fetch';
-import * as fd from 'formdata-node';
-import { type File, type FilePropertyBag } from 'formdata-node';
-import KeepAliveAgent from 'agentkeepalive';
-import { AbortController as AbortControllerPolyfill } from 'abort-controller';
+import uf from 'undici';
+import type { File, Agent, FormData } from 'undici';
+import type { FilePropertyBag } from 'formdata-node';
+import { FormDataEncoder, FormDataLike } from 'form-data-encoder';
 import { ReadStream as FsReadStream } from 'node:fs';
-import { type Agent } from 'node:http';
-import { FormDataEncoder } from 'form-data-encoder';
 import { Readable } from 'node:stream';
+import { ReadableStream } from 'node:stream/web';
+import { Blob } from 'node:buffer';
 import { type RequestOptions } from '../core';
 import { MultipartBody } from './MultipartBody';
 import { type Shims } from './registry';
-
-// @ts-ignore (this package does not have proper export maps for this export)
-import { ReadableStream } from 'web-streams-polyfill/dist/ponyfill.es2018.js';
 
 type FileFromPathOptions = Omit<FilePropertyBag, 'lastModified'>;
 
@@ -40,14 +36,14 @@ async function fileFromPath(path: string, ...args: any[]): Promise<File> {
   return await _fileFromPath(path, ...args);
 }
 
-const defaultHttpAgent: Agent = new KeepAliveAgent({ keepAlive: true, timeout: 5 * 60 * 1000 });
-const defaultHttpsAgent: Agent = new KeepAliveAgent.HttpsAgent({ keepAlive: true, timeout: 5 * 60 * 1000 });
+const defaultHttpAgent = new uf.Agent({ keepAliveTimeout: 5 * 60 * 1000 });
+const defaultHttpsAgent = new uf.Agent({ keepAliveTimeout: 5 * 60 * 1000 });
 
 async function getMultipartRequestOptions<T = Record<string, unknown>>(
-  form: fd.FormData,
+  form: FormData,
   opts: RequestOptions<T>,
 ): Promise<RequestOptions<T>> {
-  const encoder = new FormDataEncoder(form);
+  const encoder = new FormDataEncoder(form as unknown as FormDataLike);
   const readable = Readable.from(encoder);
   const body = new MultipartBody(readable);
   const headers = {
@@ -67,13 +63,13 @@ export function getRuntime(): Shims {
   }
   return {
     kind: 'node',
-    fetch: nf.default,
-    Request: nf.Request,
-    Response: nf.Response,
-    Headers: nf.Headers,
-    FormData: fd.FormData,
-    Blob: fd.Blob,
-    File: fd.File,
+    fetch: uf.fetch,
+    Request: uf.Request,
+    Response: uf.Response,
+    Headers: uf.Headers,
+    FormData: uf.FormData,
+    Blob: Blob,
+    File: uf.File,
     ReadableStream,
     getMultipartRequestOptions,
     getDefaultAgent: (url: string): Agent => (url.startsWith('https') ? defaultHttpsAgent : defaultHttpAgent),
