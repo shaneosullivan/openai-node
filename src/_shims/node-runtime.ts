@@ -1,7 +1,7 @@
 /**
  * Disclaimer: modules in _shims aren't intended to be imported by SDK users.
  */
-import uf from 'undici';
+import undici from 'undici';
 import type { File, Agent, FormData } from 'undici';
 import type { FilePropertyBag } from 'formdata-node';
 import { FormDataEncoder, FormDataLike } from 'form-data-encoder';
@@ -36,8 +36,8 @@ async function fileFromPath(path: string, ...args: any[]): Promise<File> {
   return await _fileFromPath(path, ...args);
 }
 
-const defaultHttpAgent = new uf.Agent({ keepAliveTimeout: 5 * 60 * 1000 });
-const defaultHttpsAgent = new uf.Agent({ keepAliveTimeout: 5 * 60 * 1000 });
+const defaultHttpAgent = new undici.Agent({ keepAliveTimeout: 5 * 60 * 1000 });
+const defaultHttpsAgent = new undici.Agent({ keepAliveTimeout: 5 * 60 * 1000 });
 
 async function getMultipartRequestOptions<T = Record<string, unknown>>(
   form: FormData,
@@ -63,13 +63,13 @@ export function getRuntime(): Shims {
   }
   return {
     kind: 'node',
-    fetch: uf.fetch,
-    Request: uf.Request,
-    Response: uf.Response,
-    Headers: uf.Headers,
-    FormData: uf.FormData,
+    fetch: undici.fetch,
+    Request: undici.Request,
+    Response: undici.Response,
+    Headers: undici.Headers,
+    FormData: undici.FormData,
     Blob: Blob,
-    File: uf.File,
+    File: undici.File,
     ReadableStream,
     getMultipartRequestOptions,
     getDefaultAgent: (url: string): Agent => (url.startsWith('https') ? defaultHttpsAgent : defaultHttpAgent),

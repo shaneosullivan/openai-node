@@ -1,7 +1,7 @@
 /**
  * Disclaimer: modules in _shims aren't intended to be imported by SDK users.
  */
-import undici from 'undici';
+import * as undici from 'undici';
 
 export { type Agent } from 'node:http';
 export { type ReadableStream } from 'node:stream/web';
