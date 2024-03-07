@@ -125,7 +125,7 @@ export async function toFile(
     }
   }
 
-  return new File(bits as (string | Blob | NodeJS.ArrayBufferView)[], name, options);
+  return new File(bits as (string | Blob)[], name, options);
 }
 
 async function getBytes(value: ToFileInput): Promise<Array<BlobPart>> {
