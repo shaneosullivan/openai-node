@@ -7,12 +7,20 @@ import {
   APIConnectionTimeoutError,
   APIUserAbortError,
 } from './error';
-import { kind as shimsKind, getDefaultAgent, type Agent } from './_shims/index';
+import {
+  kind as shimsKind,
+  getDefaultAgent,
+  type Agent,
+  fetch,
+  type RequestInfo,
+  type RequestInit,
+  type Response,
+  type HeadersInit,
+  type RequestDuplex,
+} from './_shims/index';
 export { type Response };
 import { isMultipartBody } from './uploads';
 import { Readable } from 'node:stream';
-import { ReadableStream } from 'node:stream/web';
-import { fetch, RequestInfo, RequestInit, Response, HeadersInit, RequestDuplex } from 'undici';
 export {
   maybeMultipartFormRequestOptions,
   multipartFormRequestOptions,

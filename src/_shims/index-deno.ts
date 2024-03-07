@@ -46,6 +46,9 @@ export interface BlobPropertyBag {
   type?: string;
 }
 
+type _RequestDuplex = 'half';
+export { type _RequestDuplex as RequestDuplex };
+
 export interface FilePropertyBag extends BlobPropertyBag {
   lastModified?: number;
 }

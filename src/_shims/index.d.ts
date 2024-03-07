@@ -21,6 +21,8 @@ export type Request = SelectType<manual.Request, auto.Request>;
 export type RequestInfo = SelectType<manual.RequestInfo, auto.RequestInfo>;
 // @ts-ignore
 export type RequestInit = SelectType<manual.RequestInit, auto.RequestInit>;
+// @ts-ignore
+export type RequestDuplex = SelectType<manual.RequestDuplex, auto.RequestDuplex>;
 
 // @ts-ignore
 export type Response = SelectType<manual.Response, auto.Response>;

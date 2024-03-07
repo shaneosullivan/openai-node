@@ -13,6 +13,7 @@ export const fetch: typeof undici.fetch;
 export type Request = undici.Request;
 export type RequestInfo = undici.RequestInfo;
 export type RequestInit = undici.RequestInit;
+export type RequestDuplex = undici.RequestDuplex;
 
 export type Response = undici.Response;
 export type ResponseInit = undici.ResponseInit;
