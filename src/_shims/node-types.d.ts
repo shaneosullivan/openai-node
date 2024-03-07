@@ -6,7 +6,7 @@ import * as undici from 'undici';
 export { type Agent } from 'node:http';
 export { type ReadableStream } from 'node:stream/web';
 export { type ReadStream as FsReadStream } from 'node:fs';
-import { Blob } from 'node:buffer';
+import { Blob as _Blob } from 'node:buffer';
 
 export const fetch: typeof undici.fetch;
 
@@ -37,5 +37,5 @@ export type FormData = undici.FormData;
 export const FormData: typeof undici.FormData;
 export type File = undici.File;
 export const File: typeof undici.File;
-export type Blob = Blob;
+export type Blob = _Blob;
 export const Blob: typeof Blob;
