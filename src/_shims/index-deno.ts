@@ -88,6 +88,12 @@ export function fileFromPath() {
 
 export const isFsReadStream = (value: any) => false;
 
+export const isReadable = (value: any) => {
+  // We declare our own class of Readable here, so it's not feasible to
+  // do an 'instanceof' check. Instead, check for Readable-like properties.
+  return !!value && value.readable === true && typeof value.read === 'function';
+};
+
 export declare class Readable {
   readable: boolean;
   readonly readableEnded: boolean;

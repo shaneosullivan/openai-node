@@ -61,6 +61,8 @@ export const Blob: SelectType<typeof manual.Blob, typeof auto.Blob>;
 // @ts-ignore
 export type Readable = SelectType<manual.Readable, auto.Readable>;
 // @ts-ignore
+export const Readable: SelectType<typeof manual.Readable, typeof auto.Readable>;
+// @ts-ignore
 export type FsReadStream = SelectType<manual.FsReadStream, auto.FsReadStream>;
 // @ts-ignore
 export type ReadableStream = SelectType<manual.ReadableStream, auto.ReadableStream>;
@@ -81,3 +83,4 @@ export function fileFromPath(path: string, options?: FileFromPathOptions): Promi
 export function fileFromPath(path: string, filename?: string, options?: FileFromPathOptions): Promise<File>;
 
 export function isFsReadStream(value: any): value is FsReadStream;
+export function isReadable(value: any): value is Readable;

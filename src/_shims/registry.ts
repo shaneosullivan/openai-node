@@ -22,6 +22,7 @@ export interface Shims {
     | ((path: string, filename?: string, options?: {}) => Promise<Shims['File']>)
     | ((path: string, options?: {}) => Promise<Shims['File']>);
   isFsReadStream: (value: any) => boolean;
+  isReadable: (value: any) => boolean;
 }
 
 export let auto = false;
@@ -38,6 +39,7 @@ export let getMultipartRequestOptions: Shims['getMultipartRequestOptions'] | und
 export let getDefaultAgent: Shims['getDefaultAgent'] | undefined = undefined;
 export let fileFromPath: Shims['fileFromPath'] | undefined = undefined;
 export let isFsReadStream: Shims['isFsReadStream'] | undefined = undefined;
+export let isReadable: Shims['isReadable'] | undefined = undefined;
 
 export function setShims(shims: Shims, options: { auto: boolean } = { auto: false }) {
   if (auto) {

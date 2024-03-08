@@ -12,15 +12,16 @@ import {
   getDefaultAgent,
   type Agent,
   fetch,
+  type Readable,
   type RequestInfo,
   type RequestInit,
   type Response,
   type HeadersInit,
   type RequestDuplex,
+  isReadable,
 } from './_shims/index';
 export { type Response };
 import { isMultipartBody } from './uploads';
-import { Readable } from 'node:stream';
 export {
   maybeMultipartFormRequestOptions,
   multipartFormRequestOptions,
@@ -503,7 +504,7 @@ export abstract class APIClient {
     if (signal) signal.addEventListener('abort', () => controller.abort());
 
     const timeout = setTimeout(() => controller.abort(), ms);
-    const isReadableBody = options.body instanceof Readable;
+    const isReadableBody = isReadable(options.body);
 
     const fetchOptions = {
       signal: controller.signal as any,

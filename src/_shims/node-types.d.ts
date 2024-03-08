@@ -4,11 +4,17 @@
 import * as undici from 'undici';
 
 export { type Agent } from 'node:http';
-export { type ReadableStream } from 'node:stream/web';
+import { ReadableStream as _ReadableStream } from 'node:stream/web';
 export { type ReadStream as FsReadStream } from 'node:fs';
 import { Blob as _Blob } from 'node:buffer';
+import { Readable as _Readable } from 'node:stream';
 
 export const fetch: typeof undici.fetch;
+
+export type Readable = _Readable;
+
+export const ReadableStream: typeof _ReadableStream;
+export type ReadableStream = _ReadableStream;
 
 export type Request = undici.Request;
 export type RequestInfo = undici.RequestInfo;
@@ -39,4 +45,4 @@ export const FormData: typeof undici.FormData;
 export type File = undici.File;
 export const File: typeof undici.File;
 export type Blob = _Blob;
-export const Blob: typeof Blob;
+export const Blob: typeof _Blob;
