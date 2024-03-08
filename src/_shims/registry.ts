@@ -64,4 +64,5 @@ export function setShims(shims: Shims, options: { auto: boolean } = { auto: fals
   getDefaultAgent = shims.getDefaultAgent;
   fileFromPath = shims.fileFromPath;
   isFsReadStream = shims.isFsReadStream;
+  isReadable = shims.isReadable;
 }
