@@ -6,4 +6,5 @@ module.exports = {
   watchPathIgnorePatterns: ['<rootDir>/node_modules/'],
   verbose: false,
   testTimeout: 60000,
+  setupFiles: ['<rootDir>/jest.polyfills.js'],
 };
